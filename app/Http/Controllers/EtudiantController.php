@@ -52,7 +52,7 @@ class EtudiantController extends Controller
     }
 
     //1.3.1. Voir l'intégral du plannings
-    public function showPlanning()
+    public function showIntegral()
     {
         $plannings = Cours::query()
             ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
@@ -68,7 +68,12 @@ class EtudiantController extends Controller
                 'plannings.date_debut as start',
                 'plannings.date_fin as end'
             )
-            ->get();;
+            ->get();
         return view('etudiant.plannings_integral', ['plannings' => $plannings]);
+    }
+
+    public function showWeek()
+    {
+        
     }
 }

@@ -17,7 +17,6 @@
             <td style="font-weight: bold">{{ $c->cours_id }}</td>
             <td>{{ $c->cours_name }}</td>
             <td>{{ $c->user_prenom }} {{ $c->user_nom }}</td>
-
         </tr>
         @if ($loop->last)
             </table>

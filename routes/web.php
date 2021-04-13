@@ -103,13 +103,14 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_etudiant']], function
     Route::get('/liste/inscription', [EtudiantController::class, 'afficherInscription'])->name('liste.inscription');
 
     //1.3.1. Voir l'intégral du plannings
-    Route::get('/plannings',[EtudiantController::class,'showPlanning'])->name('etudiant.plannings');
+    Route::get('/plannings/integral',[EtudiantController::class,'showIntegral'])->name('plannings.integral');
+
+    //1.3.3. Voir le planning par semaine
+    Route::get('/plannings/semaine',[EtudiantController::class,'showWeek'])->name('plannings.semaine');
 });
 
 // Partie d'enseignant :
 Route::group(['prefix' => 'etudiant', 'middleware' => ['is_enseignant']], function () {
     //2.1. Voir la liste des cours dont on est responsable
     Route::get('/liste/cours', [EnseignantController::class, 'showCourse'])->name('responsable.cours');
-
-
 });
