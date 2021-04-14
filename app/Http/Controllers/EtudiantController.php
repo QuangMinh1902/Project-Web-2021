@@ -74,6 +74,14 @@ class EtudiantController extends Controller
 
     public function inputWeek()
     {
-        return view('users.form_week');
+        return view('user.form_week');
+    }
+
+    public function showWeek(Request $request)
+    {
+        $request->validate([
+            'cours_id' => 'required'
+        ]);
+        
     }
 }
