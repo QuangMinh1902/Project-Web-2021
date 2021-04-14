@@ -72,8 +72,8 @@ class EtudiantController extends Controller
         return view('etudiant.plannings_integral', ['plannings' => $plannings]);
     }
 
-    public function showWeek()
+    public function inputWeek()
     {
-        
+        return view('users.form_week');
     }
 }

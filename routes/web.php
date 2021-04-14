@@ -106,7 +106,7 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_etudiant']], function
     Route::get('/plannings/integral',[EtudiantController::class,'showIntegral'])->name('plannings.integral');
 
     //1.3.3. Voir le planning par semaine
-    Route::get('/plannings/semaine',[EtudiantController::class,'showWeek'])->name('plannings.semaine');
+    Route::get('/plannings/semaine',[EtudiantController::class,'inputWeek'])->name('plannings.semaine');
 });
 
 // Partie d'enseignant :
