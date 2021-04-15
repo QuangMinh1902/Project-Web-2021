@@ -72,16 +72,5 @@ class EtudiantController extends Controller
         return view('etudiant.plannings_integral', ['plannings' => $plannings]);
     }
 
-    public function inputWeek()
-    {
-        return view('user.form_week');
-    }
-
-    public function showWeek(Request $request)
-    {
-        $request->validate([
-            'cours_id' => 'required'
-        ]);
-        
-    }
+    
 }
