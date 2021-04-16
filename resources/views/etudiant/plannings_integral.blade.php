@@ -2,7 +2,7 @@
 @section('title', 'Votre Formation')
 
 @section('contents')
-    <a href="{{route('plannings.semaine')}}">Voir par la semaine </a>
+    <a href="{{route('calendar')}}">Voir par la semaine </a>
     <h1> Vos Plannings</h1>
 
     @forelse ($plannings as $p )

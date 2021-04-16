@@ -52,25 +52,5 @@ class EtudiantController extends Controller
     }
 
     //1.3.1. Voir l'intégral du plannings
-    public function showIntegral()
-    {
-        $plannings = Cours::query()
-            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
-            ->join('users', 'users.id', '=', 'cours.user_id')
-            ->join('plannings', 'cours.id', '=', 'plannings.cours_id')
-            ->where(['cours_users.user_id' => Auth::id()])
-            ->orderBy('cours.intitule', 'asc')
-            ->select(
-                'cours.id as cours_id',
-                'users.nom as user_nom',
-                'cours.intitule as cours_name',
-                'users.prenom as user_prenom',
-                'plannings.date_debut as start',
-                'plannings.date_fin as end'
-            )
-            ->get();
-        return view('etudiant.plannings_integral', ['plannings' => $plannings]);
-    }
-
     
 }
