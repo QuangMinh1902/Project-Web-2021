@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cours;
 use App\Models\CoursUser;
-use App\Models\Planning;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -19,7 +19,7 @@ class EtudiantController extends Controller
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->where('cours.formation_id', Auth::user()->formation_id)
             ->orderBy('cours.intitule', 'asc')
-            ->select('cours.id as cours_id', 'users.nom as user_nom', 'cours.intitule as cours_name', 'users.prenom as user_prenom')
+            ->select('cours.id as cours_id', 'users.nom as nom', 'cours.intitule as cours_name', 'users.prenom as prenom')
             ->get();
         return view('etudiant.formation_cours', ['cours' => $cours]);
     }
@@ -51,6 +51,79 @@ class EtudiantController extends Controller
         return view('etudiant.liste_inscription', ['cours' => $cours]);
     }
 
+    //1.2.4. Rechercher un cours dans la liste des cours de la formation
+    public function search()
+    {
+        return view('etudiant.search');
+    }
+
+    public function autocomplete(Request $request)
+    {
+        $cours =  Cours::select("cours.id","cours.intitule","users.nom as nom","users.prenom as prenom")
+            ->join('formations', 'formations.id', '=', 'cours.formation_id')
+            ->join('users', 'users.id', '=', 'cours.user_id')
+            ->where('cours.formation_id', Auth::user()->formation_id)
+            ->where("cours.intitule", "LIKE", "%{$request->terms}%")
+            ->get();
+        return response()->json($cours);
+    }
+
     //1.3.1. Voir l'intégral du plannings
-    
+    public function showIntegral()
+    {
+        $plannings = Cours::query()
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->join('users', 'users.id', '=', 'cours.user_id')
+            ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
+            ->where(['cours_users.user_id' => Auth::id()])
+            ->orderBy('cours.intitule', 'asc')
+            ->select(
+                'cours.id as cours_id',
+                'users.nom as user_nom',
+                'plannings.date_debut as start',
+                'plannings.date_fin as end',
+                'cours.intitule as cours_name',
+                'users.prenom as user_prenom'
+            )
+            ->get();
+        return view('etudiant.plannings_integral', ['plannings' => $plannings]);
+    }
+
+    public function inputWeek()
+    {
+        return view('etudiant.form_week');
+    }
+
+    public function showWeek(Request $request)
+    {
+        $request->validate([
+            'week' => 'required|integer|min:1|max:52',
+            'year' => 'required|integer|min:2015|max:2030',
+        ]);
+        $start = new DateTime();
+        $end = new DateTime();
+        $start->setISODate($request->year, $request->week);
+        $end->setISODate($request->year, $request->week);
+        $start->format('Y-m-d');
+        $end->format('Y-m-d');
+        $end->modify('+6 days');
+        $plannings = Cours::query()
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->join('users', 'users.id', '=', 'cours.user_id')
+            ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
+            ->where(['cours_users.user_id' => Auth::id()])
+            ->whereDate('date_debut', '>', $start)
+            ->whereDate('date_fin', '<', $end)
+            ->orderBy('cours.intitule', 'asc')
+            ->select(
+                'cours.id as cours_id',
+                'users.nom as user_nom',
+                'plannings.date_debut as start',
+                'plannings.date_fin as end',
+                'cours.intitule as cours_name',
+                'users.prenom as user_prenom'
+            )
+            ->get();
+        return view('etudiant.form_week', ['plannings' => $plannings]);
+    }
 }
