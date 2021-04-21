@@ -147,7 +147,6 @@
 </head>
 
 <body>
-    
     @section('etat')
         @if (session()->has('etat'))
             <p class="etat">{{ session()->get('etat') }}</p>

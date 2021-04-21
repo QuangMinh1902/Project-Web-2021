@@ -7,7 +7,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\EnseignantController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,10 +100,6 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_etudiant']], function
 
     // 1.2.3. Liste des cours auxquels l’étudiant est inscrit
     Route::get('/liste/inscription', [EtudiantController::class, 'afficherInscription'])->name('liste.inscription');
-
-    //1.2.4. Rechercher un cours dans la liste des cours de la formation
-    Route::get('/rechercher/cours',[EtudiantController::class,'search'])->name('rechercher.cours');
-    Route::get('/autocomplete',[EtudiantController::class,'autocomplete'])->name('autocomplete');
 
     //1.3.1. Voir l'intégral du plannings
     Route::get('/plannings/integral', [EtudiantController::class, 'showIntegral'])->name('plannings.integral');

@@ -12,12 +12,19 @@ use Illuminate\Http\Request;
 class EtudiantController extends Controller
 {
     // 1.1. Voir la liste des cours de la formation
-    public function showCourse()
+    public function showCourse(Request $request)
     {
         $cours =  Cours::query()
             ->join('formations', 'formations.id', '=', 'cours.formation_id')
             ->join('users', 'users.id', '=', 'cours.user_id')
-            ->where('cours.formation_id', Auth::user()->formation_id)
+            ->where([
+                ['cours.formation_id', Auth::user()->formation_id],
+                [function ($query) use ($request){
+                    if(($term = $request->term)){
+                        $query->orWhere('cours.intitule','LIKE','%'. $term . '%') ->get();
+                    }
+                }]
+            ])
             ->orderBy('cours.intitule', 'asc')
             ->select('cours.id as cours_id', 'users.nom as nom', 'cours.intitule as cours_name', 'users.prenom as prenom')
             ->get();
@@ -49,23 +56,6 @@ class EtudiantController extends Controller
             ->select('cours.id as cours_id', 'users.nom as user_nom', 'cours.intitule as cours_name', 'users.prenom as user_prenom')
             ->get();
         return view('etudiant.liste_inscription', ['cours' => $cours]);
-    }
-
-    //1.2.4. Rechercher un cours dans la liste des cours de la formation
-    public function search()
-    {
-        return view('etudiant.search');
-    }
-
-    public function autocomplete(Request $request)
-    {
-        $cours =  Cours::select("cours.id","cours.intitule","users.nom as nom","users.prenom as prenom")
-            ->join('formations', 'formations.id', '=', 'cours.formation_id')
-            ->join('users', 'users.id', '=', 'cours.user_id')
-            ->where('cours.formation_id', Auth::user()->formation_id)
-            ->where("cours.intitule", "LIKE", "%{$request->terms}%")
-            ->get();
-        return response()->json($cours);
     }
 
     //1.3.1. Voir l'intégral du plannings
@@ -112,8 +102,8 @@ class EtudiantController extends Controller
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
             ->where(['cours_users.user_id' => Auth::id()])
-            ->whereDate('date_debut', '>', $start)
-            ->whereDate('date_fin', '<', $end)
+            ->whereDate('date_debut', '>=', $start)
+            ->whereDate('date_fin', '<=', $end)
             ->orderBy('cours.intitule', 'asc')
             ->select(
                 'cours.id as cours_id',
