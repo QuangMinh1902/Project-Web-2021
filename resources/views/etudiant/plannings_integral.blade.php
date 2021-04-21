@@ -4,6 +4,10 @@
 @section('contents')
     <a href="{{ route('plannings.semaine') }}">Voir par la semaine </a>
     <h1> Vos Plannings</h1>
+    <form class="form-wrapper cf" action="{{ route('list.course') }}" method="GET" role="search">
+        <input type="text" name="term" placeholder="Rechercher un cours" id="term" required>
+        <button type="submit">Rechercher</button>
+    </form>
     @forelse ($plannings as $p )
         @if ($loop->first)
             <table>

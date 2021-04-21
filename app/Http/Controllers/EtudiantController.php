@@ -19,14 +19,19 @@ class EtudiantController extends Controller
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->where([
                 ['cours.formation_id', Auth::user()->formation_id],
-                [function ($query) use ($request){
-                    if(($term = $request->term)){
-                        $query->orWhere('cours.intitule','LIKE','%'. $term . '%') ->get();
+                [function ($query) use ($request) {
+                    if (($term = $request->term)) {
+                        $query->orWhere('cours.intitule', 'LIKE', '%' . $term . '%')->get();
                     }
                 }]
             ])
             ->orderBy('cours.intitule', 'asc')
-            ->select('cours.id as cours_id', 'users.nom as nom', 'cours.intitule as cours_name', 'users.prenom as prenom')
+            ->select(
+                'cours.id as cours_id',
+                'users.nom as nom',
+                'cours.intitule as cours_name',
+                'users.prenom as prenom'
+            )
             ->get();
         return view('etudiant.formation_cours', ['cours' => $cours]);
     }
@@ -59,13 +64,20 @@ class EtudiantController extends Controller
     }
 
     //1.3.1. Voir l'intégral du plannings
-    public function showIntegral()
+    public function showIntegral(Request $request)
     {
-        $plannings = Cours::query()
-            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+        $plannings = CoursUser::query()
+            ->join('cours', 'cours_users.cours_id', '=', 'cours.id')
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
-            ->where(['cours_users.user_id' => Auth::id()])
+            ->where([
+                ['cours_users.user_id' => Auth::user()->id],
+                [function ($query) use ($request) {
+                    if (($term = $request->term)) {
+                        $query->orWhere('cours.intitule', 'LIKE', '%' . $term . '%')->get();
+                    }
+                }]
+            ])
             ->orderBy('cours.intitule', 'asc')
             ->select(
                 'cours.id as cours_id',

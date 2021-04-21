@@ -3,11 +3,12 @@
 
 @section('contents')
     <h1>Les cours dans votre formation </h1>
+    <a href="{{ route('list.course') }}">
+        <button type="button" title="Refresh page"> Refresh</button>
+    </a>
     <form class="form-wrapper cf" action="{{ route('list.course') }}" method="GET" role="search">
         <input type="text" name="term" placeholder="Rechercher un cours" id="term" required>
-        <a href="{{ route('list.course') }}"></a>
         <button type="submit">Rechercher</button>
-    </form>
     </form>
     @forelse ($cours as $c )
         @if ($loop->first)
