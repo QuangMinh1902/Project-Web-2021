@@ -3,7 +3,7 @@
 
 @section('contents')
 <h1> Vos Plannings</h1>
-<a href="{{ route('plannings.semaine') }}">Voir par la semaine </a>
+<a href="{{ route('week') }}">Voir par la semaine </a>
     <a href="{{ route('plannings.integral') }}">
         <button type="button" title="Refresh page"> Refresh</button>
     </a>

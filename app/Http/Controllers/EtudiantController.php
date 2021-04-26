@@ -66,12 +66,12 @@ class EtudiantController extends Controller
     //1.3.1. Voir l'intégral du plannings
     public function showIntegral(Request $request)
     {
-        $plannings = CoursUser::query()
-            ->join('cours', 'cours_users.cours_id', '=', 'cours.id')
+        $plannings = Cours::query()
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
             ->where([
-                ['cours_users.user_id' => Auth::user()->id],
+                ['cours_users.user_id', Auth::user()->id],
                 [function ($query) use ($request) {
                     if (($term = $request->term)) {
                         $query->orWhere('cours.intitule', 'LIKE', '%' . $term . '%')->get();
