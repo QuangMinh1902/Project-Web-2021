@@ -23,7 +23,7 @@
             <td>{{ $p->start }}</td>
             <td>{{ $p->end }}</td>
             <td><a href="{{ route('modifier.seance', ['id' => $p->id]) }}">Modifier</a></td>
-            <td>Supprimer</td>
+            <td><a href="{{ route('suppression.seance', ['id' => $p->id]) }}">Supprimer</a></td>
         </tr>
         @if ($loop->last)
             </table>

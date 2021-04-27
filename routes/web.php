@@ -132,4 +132,8 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_enseignant']], functi
     // 2.3.2. Mise à jour d’une séance de cours
     Route::get('/enseignant/modification/seance/{id}',[EnseignantController::class,'modifierSeance'])->name('modifier.seance');
     Route::put('/enseignant/update/seance/{id}',[EnseignantController::class,'updateSeance'])->name('seance.update');
+
+    // 2.3.3. Suppression d’une séance de cours
+    Route::get('/suppression/seance/{id}',[EnseignantController::class,'SupprimerSeance'])->name('suppression.seance');
 });
+

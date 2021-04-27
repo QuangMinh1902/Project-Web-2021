@@ -170,4 +170,11 @@ class EnseignantController extends Controller
         $request->session()->flash('etat', 'Modification effectuée');
         return redirect()->route('gestion.planning');
     }
+
+    public function SupprimerSeance(Request $request, $id)
+    {
+        Planning::where('id', $id)->delete();
+        $request->session()->flash('etat', 'La séance de cours a été supprimée');
+        return redirect()->back();
+    }
 }
