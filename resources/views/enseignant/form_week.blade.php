@@ -52,6 +52,7 @@
             <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
                 Il n'y a pas de cours pour cette semaine.
             </p>
-    @endforelse
+        @endforelse
     @endif
+    {{ $plannings->links() }}
 @endsection

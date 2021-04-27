@@ -87,13 +87,12 @@ class EnseignantController extends Controller
 
     public function afficheSeance()
     {
-        $plannings = Cours::query()
+        $plannings = Cours::orderBy('cours.intitule', 'asc')
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
             ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
             ->where('cours_users.user_id', Auth::id())
             ->orWhere('cours.user_id', Auth::id())
-            ->orderBy('cours.intitule', 'asc')
             ->select(
                 'cours.id as cours_id',
                 'users.nom as user_nom',
@@ -103,7 +102,7 @@ class EnseignantController extends Controller
                 'users.prenom as user_prenom',
                 'plannings.id as id'
             )
-            ->get();
+            ->simplePaginate(5);
         return view('enseignant.myPlanning', ['plannings' => $plannings]);
     }
 
@@ -148,7 +147,7 @@ class EnseignantController extends Controller
             ->where('cours_users.user_id', Auth::id())
             ->orWhere('cours.user_id', Auth::id())
             ->orderBy('cours.intitule', 'asc')
-            ->select('cours.intitule','cours.id')
+            ->select('cours.intitule', 'cours.id')
             ->distinct()
             ->get();
         return view('enseignant.update_seance', ['planning' => $planning, 'cours' => $cours]);
