@@ -3,7 +3,7 @@
 
 @section('contents')
     <h1> Vos Plannings</h1>
-    <a href="{{route('ajout.seance')}}">Créer une séance</a>
+    <a href="{{ route('ajout.seance') }}">Créer une séance</a>
     @forelse ($plannings as $p )
         @if ($loop->first)
             <table>
@@ -22,7 +22,7 @@
             <td>{{ $p->user_prenom }} {{ $p->user_nom }}</td>
             <td>{{ $p->start }}</td>
             <td>{{ $p->end }}</td>
-            <td>Modifier</td>
+            <td><a href="{{ route('modifier.seance', ['id' => $p->id]) }}">Modifier</a></td>
             <td>Supprimer</td>
         </tr>
         @if ($loop->last)

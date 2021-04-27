@@ -129,5 +129,7 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_enseignant']], functi
     Route::get('/enseignant/ajout/seance', [EnseignantController::class, 'CreerSeance'])->name('ajout.seance');
     Route::post('/store/seance',[EnseignantController::class,'storeSeance'])->name('store.seance');
 
-    
+    // 2.3.2. Mise à jour d’une séance de cours
+    Route::get('/enseignant/modification/seance/{id}',[EnseignantController::class,'modifierSeance'])->name('modifier.seance');
+    Route::put('/enseignant/update/seance/{id}',[EnseignantController::class,'updateSeance'])->name('seance.update');
 });

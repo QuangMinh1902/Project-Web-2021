@@ -100,7 +100,8 @@ class EnseignantController extends Controller
                 'plannings.date_debut as start',
                 'plannings.date_fin as end',
                 'cours.intitule as cours_name',
-                'users.prenom as user_prenom'
+                'users.prenom as user_prenom',
+                'plannings.id as id'
             )
             ->get();
         return view('enseignant.myPlanning', ['plannings' => $plannings]);
@@ -134,6 +135,40 @@ class EnseignantController extends Controller
         $planning->save();
 
         $request->session()->flash('etat', 'La nouvelle séance a été créée');
+        return redirect()->route('gestion.planning');
+    }
+
+    // 2.3.2. Mise à jour d’une séance de cours
+    public function modifierSeance($id)
+    {
+        $planning = Planning::findOrFail($id);
+        $cours = Cours::query()
+            ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->where('cours_users.user_id', Auth::id())
+            ->orWhere('cours.user_id', Auth::id())
+            ->orderBy('cours.intitule', 'asc')
+            ->select('cours.intitule','cours.id')
+            ->distinct()
+            ->get();
+        return view('enseignant.update_seance', ['planning' => $planning, 'cours' => $cours]);
+    }
+
+    public function updateSeance(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'cours_id' => 'required|integer',
+            'start' => 'required|date_format:Y-m-d H:i:s',
+            'end' => 'required|date_format:Y-m-d H:i:s'
+        ]);
+
+        Planning::where('id', $id)->update([
+            'cours_id' => $validated['cours_id'],
+            'date_debut' => $validated['start'],
+            'date_fin' => $validated['end']
+        ]);
+
+        $request->session()->flash('etat', 'Modification effectuée');
         return redirect()->route('gestion.planning');
     }
 }
