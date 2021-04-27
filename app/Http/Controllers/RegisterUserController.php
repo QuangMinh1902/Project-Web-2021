@@ -13,7 +13,7 @@ class RegisterUserController extends Controller
 {
     public function showFormS()
     {
-        $formations = Formation::all();
+        $formations = Formation::query()->orderBy('intitule', 'asc')->get();
         return view('auth.register_student', ['formations' => $formations]);
     }
 
@@ -74,6 +74,4 @@ class RegisterUserController extends Controller
 
         return redirect()->route('login');
     }
-
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cours;
+use App\Models\Planning;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +69,7 @@ class EnseignantController extends Controller
         $plannings = Cours::query()
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
-            ->where('cours.user_id', Auth::user()->id)
+            ->where('cours.user_id', Auth::id())
             ->whereDate('date_debut', '>=', $start)
             ->whereDate('date_fin', '<=', $end)
             ->orderBy('cours.intitule', 'asc')
@@ -89,8 +90,9 @@ class EnseignantController extends Controller
         $plannings = Cours::query()
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
-            ->join('cours_users','cours_users.cours_id','=','cours.id')
-            ->where('cours_users.user_id', Auth::user()->id)
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->where('cours_users.user_id', Auth::id())
+            ->orWhere('cours.user_id', Auth::id())
             ->orderBy('cours.intitule', 'asc')
             ->select(
                 'cours.id as cours_id',
@@ -102,5 +104,36 @@ class EnseignantController extends Controller
             )
             ->get();
         return view('enseignant.myPlanning', ['plannings' => $plannings]);
+    }
+
+    // 2.3.1. Création d’une nouvelle séance de cours
+    public function CreerSeance()
+    {
+        $cours = Cours::query()
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->where('cours_users.user_id', Auth::id())
+            ->orWhere('cours.user_id', Auth::id())
+            ->orderBy('intitule', 'asc')
+            ->get();
+        return view('enseignant.ajout_seance', ['cours' => $cours]);
+    }
+
+    // 2.3.1. Création d’une nouvelle séance de cours
+    public function storeSeance(Request $request)
+    {
+        $request->validate([
+            'cours_id' => 'required|integer',
+            'start' => 'required|date_format:Y-m-d H:i:s',
+            'end' => 'required|date_format:Y-m-d H:i:s'
+        ]);
+
+        $planning = new Planning();
+        $planning->cours_id = $request->cours_id;
+        $planning->date_debut = $request->start;
+        $planning->date_fin = $request->end;
+        $planning->save();
+
+        $request->session()->flash('etat', 'La nouvelle séance a été créée');
+        return redirect()->route('gestion.planning');
     }
 }

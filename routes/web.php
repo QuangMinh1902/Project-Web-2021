@@ -116,15 +116,18 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_enseignant']], functi
 
     // 2.2. Voir le planning personnalisé
     // 2.2.1. Intégral.
-    Route::get('/plannings',[EnseignantController::class,'showPlanning'])->name('enseignant.plannings');
+    Route::get('/plannings', [EnseignantController::class, 'showPlanning'])->name('enseignant.plannings');
 
     // 2.2.3. Par semaine
     Route::get('/enseignant/semaine/year', [EnseignantController::class, 'chooseWeek'])->name('week');
     Route::get('//enseignant/plannings/semaine', [EnseignantController::class, 'showCalendar'])->name('show.plannings');
 
     // 2.3. Gestion du planning
-    Route::get('/enseignant/gestion/planning',[EnseignantController::class,'afficheSeance'])->name('gestion.planning');
+    Route::get('/enseignant/gestion/planning', [EnseignantController::class, 'afficheSeance'])->name('gestion.planning');
 
     // 2.3.1. Création d’une nouvelle séance de cours
+    Route::get('/enseignant/ajout/seance', [EnseignantController::class, 'CreerSeance'])->name('ajout.seance');
+    Route::post('/store/seance',[EnseignantController::class,'storeSeance'])->name('store.seance');
 
+    
 });

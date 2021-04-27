@@ -13,4 +13,5 @@ class Planning extends Model
     protected $fillable = [
         'cours_id', 'date_debut', 'date_fin'
     ];
+    public $timestamps = false;
 }
