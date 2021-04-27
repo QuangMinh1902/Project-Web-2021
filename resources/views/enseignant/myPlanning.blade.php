@@ -3,14 +3,6 @@
 
 @section('contents')
     <h1> Vos Plannings</h1>
-    <a href="{{ route('week') }}">Voir par la semaine </a>
-    <a href="{{ route('plannings.integral') }}">
-        <button type="button" title="Refresh page"> Refresh</button>
-    </a>
-    <form class="form-wrapper cf" action="{{ route('plannings.integral') }}" method="GET" role="search">
-        <input type="text" name="term" placeholder="Rechercher un cours" id="term" required>
-        <button type="submit">Rechercher</button>
-    </form>
     @forelse ($plannings as $p )
         @if ($loop->first)
             <table>

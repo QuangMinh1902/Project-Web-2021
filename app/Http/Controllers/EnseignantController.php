@@ -83,4 +83,24 @@ class EnseignantController extends Controller
             ->get();
         return view('enseignant.form_week', ['plannings' => $plannings]);
     }
+
+    public function afficheSeance()
+    {
+        $plannings = Cours::query()
+            ->join('users', 'users.id', '=', 'cours.user_id')
+            ->join('plannings', 'plannings.cours_id', '=', 'cours.id')
+            ->join('cours_users','cours_users.cours_id','=','cours.id')
+            ->where('cours_users.user_id', Auth::user()->id)
+            ->orderBy('cours.intitule', 'asc')
+            ->select(
+                'cours.id as cours_id',
+                'users.nom as user_nom',
+                'plannings.date_debut as start',
+                'plannings.date_fin as end',
+                'cours.intitule as cours_name',
+                'users.prenom as user_prenom'
+            )
+            ->get();
+        return view('enseignant.myPlanning', ['plannings' => $plannings]);
+    }
 }

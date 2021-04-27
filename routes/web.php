@@ -122,4 +122,9 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_enseignant']], functi
     Route::get('/enseignant/semaine/year', [EnseignantController::class, 'chooseWeek'])->name('week');
     Route::get('//enseignant/plannings/semaine', [EnseignantController::class, 'showCalendar'])->name('show.plannings');
 
+    // 2.3. Gestion du planning
+    Route::get('/enseignant/gestion/planning',[EnseignantController::class,'afficheSeance'])->name('gestion.planning');
+
+    // 2.3.1. Création d’une nouvelle séance de cours
+
 });

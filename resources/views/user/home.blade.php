@@ -13,6 +13,7 @@
     @elseif (Auth::user()->type == "enseignant")
         <a href="{{ route('responsable.cours') }}">Vos cours </a>
         <a href="{{route('enseignant.plannings')}}">Plannings</a>
+        <a href="{{route('gestion.planning')}}">Gestion du planning</a>
     @endif
     <p style="color: yellowgreen; font-size: 25px;text-align: center">
         Salut <strong>{{ Auth::user()->prenom }}</strong>
