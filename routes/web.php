@@ -27,15 +27,18 @@ Route::get('/logout', [AuthenticatedSessionController::class, 'logout'])->name('
 
 // Création du compte pour les utilisateurs
 Route::get('/role', [RegisterUserController::class, 'chooseRole'])->name('role'); //choisir le rôle
+
 // étudiant
 Route::get('/register/student', [RegisterUserController::class, 'showFormS'])->name('isStudent');
+
 // enseignant
 Route::get('/register/teacher', [RegisterUserController::class, 'showFormT'])->name('isTeacher');
+
 // enregistrer dans la base de donnée.
 Route::post('/store/student', [RegisterUserController::class, 'storeStudent'])->name('store.student');
 Route::post('/store/teacher', [RegisterUserController::class, 'storeTeacher'])->name('store.teacher');
 
-// 4. Partie l’administrateur :
+// 4. Partie d’administrateur :
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     // Page admin
     Route::get('/home', [AdminController::class, 'comeHome']);
@@ -62,6 +65,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::get('/create/coours', [AdminController::class, 'createCours'])->name('create.cours');
     Route::post('/store/coours', [AdminController::class, 'storeCours'])->name('store.cours');
 
+    // 4.2.4. Modification d’un cours
+    Route::get('/admin/modification/seance/{id}', [AdminController::class, 'modifyCourse'])->name('modifier.cours');
+    Route::put('/admin/update/seance/{id}', [AdminController::class, 'updateCourse'])->name('cours.update');
+
     //4.3.1. Liste des formations
     Route::get('/formations', [AdminController::class, 'showFormation'])->name('liste.formations');
 
@@ -70,7 +77,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::post('/store/formation', [AdminController::class, 'storeFormation'])->name('store.formation');
 });
 
-//  Partie l’utilisateur :
+//  Partie d’utilisateur :
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     // Page user
     Route::get('/home', [UserController::class, 'goView'])->name('user.home');
@@ -127,13 +134,12 @@ Route::group(['prefix' => 'etudiant', 'middleware' => ['is_enseignant']], functi
 
     // 2.3.1. Création d’une nouvelle séance de cours
     Route::get('/enseignant/ajout/seance', [EnseignantController::class, 'CreerSeance'])->name('ajout.seance');
-    Route::post('/store/seance',[EnseignantController::class,'storeSeance'])->name('store.seance');
+    Route::post('/store/seance', [EnseignantController::class, 'storeSeance'])->name('store.seance');
 
     // 2.3.2. Mise à jour d’une séance de cours
-    Route::get('/enseignant/modification/seance/{id}',[EnseignantController::class,'modifierSeance'])->name('modifier.seance');
-    Route::put('/enseignant/update/seance/{id}',[EnseignantController::class,'updateSeance'])->name('seance.update');
+    Route::get('/enseignant/modification/seance/{id}', [EnseignantController::class, 'modifierSeance'])->name('modifier.seance');
+    Route::put('/enseignant/update/seance/{id}', [EnseignantController::class, 'updateSeance'])->name('seance.update');
 
     // 2.3.3. Suppression d’une séance de cours
-    Route::delete('/suppression/seance/{id}',[EnseignantController::class,'SupprimerSeance'])->name('suppression.seance');
+    Route::delete('/suppression/seance/{id}', [EnseignantController::class, 'SupprimerSeance'])->name('suppression.seance');
 });
-

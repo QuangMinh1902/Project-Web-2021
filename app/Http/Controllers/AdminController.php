@@ -6,6 +6,7 @@ use App\Models\Cours;
 use App\Models\Formation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -85,10 +86,17 @@ class AdminController extends Controller
         return view('admin.detail_cours', ['cours' => $cours, 'user' => $user, 'intitule' => $intitule]);
     }
 
-    public function showCourse()
+    // 4.2.1. Liste des cours
+    public function showCourse(Request $request)
     {
         $cours = Cours::orderBy('intitule', 'asc')
             ->join('users', 'cours.user_id', '=', 'users.id')
+            ->where([[function ($query) use ($request) {
+                    if (($term = $request->term)) {
+                        $query->orWhere('cours.intitule', 'LIKE', '%' . $term . '%')->get();
+                    }
+                }]
+            ])
             ->simplePaginate(4);
         return view('admin.liste_cours', ['cours' => $cours]);
     }
