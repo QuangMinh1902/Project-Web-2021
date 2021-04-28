@@ -23,7 +23,7 @@
         <tr>
             <td>{{ $c->intitule }}</td>
             <td>{{ $c->nom }} {{ $c->prenom }}</td>
-            <td>Modifier</td>
+            <td><a href="{{ route('modifier.cours', ['id' => $c->id]) }}"> Modifier</a></td>
             <td>Supprimer</td>
         </tr>
         @if ($loop->last)

@@ -91,7 +91,8 @@ class AdminController extends Controller
     {
         $cours = Cours::orderBy('intitule', 'asc')
             ->join('users', 'cours.user_id', '=', 'users.id')
-            ->where([[function ($query) use ($request) {
+            ->where([
+                [function ($query) use ($request) {
                     if (($term = $request->term)) {
                         $query->orWhere('cours.intitule', 'LIKE', '%' . $term . '%')->get();
                     }
@@ -139,12 +140,25 @@ class AdminController extends Controller
         $validated = $request->validate([
             'intitule' => 'required|string|min:2|max:50|unique:formations',
         ]);
-
         $formation = new Formation();
         $formation->intitule = $validated['intitule'];
         $formation->save();
-
         $request->session()->flash('etat', 'La nouvelle formation a été créé');
         return redirect()->route('liste.formations');
+    }
+
+    public function modifyCourse($id)
+    {
+        $cours = Cours::findOrFail($id);
+        $formations = Formation::query()
+            ->select('intitule', 'id')
+            ->orderBy('intitule', 'asc')
+            ->get();
+        $users = User::query()
+            ->select()
+            ->where('type', 'enseignant')
+            ->orderBy('nom', 'asc')
+            ->get();
+        return view('admin.update_course', ['cours' => $cours, 'formations' => $formations, 'users' => $users]);
     }
 }
