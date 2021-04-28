@@ -23,7 +23,16 @@
             <td>{{ $p->start }}</td>
             <td>{{ $p->end }}</td>
             <td><a href="{{ route('modifier.seance', ['id' => $p->id]) }}">Modifier</a></td>
-            <td><a href="{{ route('suppression.seance', ['id' => $p->id]) }}">Supprimer</a></td>
+            <td>
+                <form action="{{ route('suppression.seance', ['id' => $p->id]) }}" method="post"
+                    onsubmit="return confirm('Are you sure ? ')">
+                    @method('delete')
+                    @csrf
+                    <button>
+                        Supprimer
+                    </button>
+                </form>
+            </td>
         </tr>
         @if ($loop->last)
             </table>
