@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cours;
+use App\Models\CoursUser;
 use App\Models\Formation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -89,7 +90,8 @@ class AdminController extends Controller
     // 4.2.1. Liste des cours
     public function showCourse(Request $request)
     {
-        $cours = Cours::orderBy('intitule', 'asc')
+        $cours = Cours::orderBy('cours.intitule', 'asc')
+            ->join('formations','cours.formation_id','=','formations.id')
             ->join('users', 'cours.user_id', '=', 'users.id')
             ->where([
                 [function ($query) use ($request) {
@@ -98,13 +100,25 @@ class AdminController extends Controller
                     }
                 }]
             ])
+            ->select(
+                'cours.id as cours_id',
+                'users.nom as user_nom',
+                'users.prenom as user_prenom',
+                'cours.intitule as cours_name',
+                'formations.intitule as formation'
+            )
             ->simplePaginate(4);
         return view('admin.liste_cours', ['cours' => $cours]);
     }
 
     public function createCours()
     {
-        $users = User::query()->select()->orderBy('id', 'asc')->get();
+        $users = User::query()->select()
+        ->where('type','<>','admin')
+        ->where('type','<>','etudiant')
+        ->orderBy('nom', 'asc')
+        ->orderBy('prenom', 'asc')
+        ->get();
         return view('admin.createCours', ['users' => $users]);
     }
 
@@ -147,6 +161,7 @@ class AdminController extends Controller
         return redirect()->route('liste.formations');
     }
 
+    // 4.2.4. Modification d’un cours.
     public function modifyCourse($id)
     {
         $cours = Cours::findOrFail($id);
@@ -177,5 +192,15 @@ class AdminController extends Controller
         ]);
         $request->session()->flash('etat', 'Modification effectuée');
         return redirect()->route('liste.cours');
+    }
+
+    // 4.2.5. Suppression d’un cours.
+    public function deleteCourse(Request $request, $id)
+    {
+        // $nom = Cours::where(['id' => $id])->first()->intitule
+        $cours = Cours::find($id);
+        $cours->delete();
+        $request->session()->flash('etat', 'Le cours a été supprimé');
+        return redirect()->back();
     }
 }
