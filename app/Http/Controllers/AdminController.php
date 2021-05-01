@@ -161,4 +161,21 @@ class AdminController extends Controller
             ->get();
         return view('admin.update_course', ['cours' => $cours, 'formations' => $formations, 'users' => $users]);
     }
+
+    public function updateCourse(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'cours' => 'required|string',
+            'user' => 'required|integer',
+            'formation' => 'required|integer'
+        ]);
+
+        Cours::where('id', $id)->update([
+            'intitule' => $validated['cours'],
+            'user_id' => $validated['user'],
+            'formation_id' => $validated['formation']
+        ]);
+        $request->session()->flash('etat', 'Modification effectuée');
+        return redirect()->route('liste.cours');
+    }
 }
