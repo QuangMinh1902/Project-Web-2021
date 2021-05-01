@@ -11,7 +11,7 @@ class Cours extends Model
 
     public $table = 'cours';
 
-    protected $fillable = ['intitule', 'user_id'];
+    protected $fillable = ['intitule', 'user_id','id','formation_id'];
 
     public function users()
     {

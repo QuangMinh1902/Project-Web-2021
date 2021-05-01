@@ -13,7 +13,7 @@
                     <th>NOM</th>
                     <th>PRENOM</th>
                     <th>COURS PARTICIPÉ</th>
-                    <th>ASSOCIATION</th>
+                    <th>ASSOCIER À UN COURS</th>
                 </tr>
         @endif
         <tr>

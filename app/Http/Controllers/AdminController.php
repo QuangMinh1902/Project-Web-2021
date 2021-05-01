@@ -91,7 +91,7 @@ class AdminController extends Controller
     public function showCourse(Request $request)
     {
         $cours = Cours::orderBy('cours.intitule', 'asc')
-            ->join('formations','cours.formation_id','=','formations.id')
+            ->join('formations', 'cours.formation_id', '=', 'formations.id')
             ->join('users', 'cours.user_id', '=', 'users.id')
             ->where([
                 [function ($query) use ($request) {
@@ -108,17 +108,23 @@ class AdminController extends Controller
                 'formations.intitule as formation'
             )
             ->simplePaginate(4);
-        return view('admin.liste_cours', ['cours' => $cours]);
+        $users = User::query()
+            ->where('type', '<>', 'admin')
+            ->where('type', '<>', 'etudiant')
+            ->orderBy('nom', 'asc')
+            ->orderBy('prenom', 'asc')
+            ->get();
+        return view('admin.liste_cours', ['cours' => $cours, 'users' => $users]);
     }
 
     public function createCours()
     {
         $users = User::query()->select()
-        ->where('type','<>','admin')
-        ->where('type','<>','etudiant')
-        ->orderBy('nom', 'asc')
-        ->orderBy('prenom', 'asc')
-        ->get();
+            ->where('type', '<>', 'admin')
+            ->where('type', '<>', 'etudiant')
+            ->orderBy('nom', 'asc')
+            ->orderBy('prenom', 'asc')
+            ->get();
         return view('admin.createCours', ['users' => $users]);
     }
 
@@ -197,10 +203,28 @@ class AdminController extends Controller
     // 4.2.5. Suppression d’un cours.
     public function deleteCourse(Request $request, $id)
     {
-        // $nom = Cours::where(['id' => $id])->first()->intitule
+        $nom = Cours::where(['id' => $id])->first()->intitule;
         $cours = Cours::find($id);
         $cours->delete();
-        $request->session()->flash('etat', 'Le cours a été supprimé');
+        CoursUser::where('cours_id', $id)->delete();
+        $request->session()->flash('etat', 'Le cours ' . $nom . ' a été supprimé');
         return redirect()->back();
+    }
+
+    // 4.2.6. Association d’un enseignant à un cours
+    public function associerCours(Request $request, $id)
+    {
+        $request->validate([
+            'user_id' => 'required'
+        ]);
+        $count =  DB::table('cours_users')->where(['cours_id' => $id, 'user_id' => $request->user_id])->count();
+        if ($count > 0) {
+            $request->session()->flash('etat', 'Cette utilisateur a été déjà associé à ce cours');
+            return redirect()->back();
+        } else {
+            DB::insert('insert into cours_users (cours_id, user_id) values (?, ?)', [$id, $request->user_id]);
+            $request->session()->flash('etat', 'Association effectuée');
+            return redirect()->back();
+        }
     }
 }

@@ -17,14 +17,38 @@
                 <tr>
                     <th>L'INTITULÉ</th>
                     <th>RESPONSABLE</th>
+                    <th>FORMATION</th>
                     <th colspan="2">ACTIONS</th>
+                    <th>ASSOCIER À UN ENSEIGNANT</th>
                 </tr>
         @endif
         <tr>
-            <td>{{ $c->intitule }}</td>
-            <td>{{ $c->nom }} {{ $c->prenom }}</td>
-            <td><a href="{{ route('modifier.cours', ['id' => $c->id]) }}"> Modifier</a></td>
-            <td>Supprimer</td>
+            <td>{{ $c->cours_name }}</td>
+            <td>{{ $c->user_nom }} {{ $c->user_prenom }}</td>
+            <td>{{ $c->formation }}</td>
+            <td><a href="{{ route('modifier.cours', ['id' => $c->cours_id]) }}"> Modifier</a></td>
+            <td>
+                <form action="{{ route('suppression.cours', ['id' => $c->cours_id]) }}" method="post"
+                    onsubmit="return confirm('Are you sure ? ')">
+                    @method('delete')
+                    @csrf
+                    <button>
+                        Supprimer
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form action="{{ route('associer.cours', ['id' => $c->cours_id]) }}">
+                    <select name="user_id">
+                        <option value="">--Veuillez choisir un enseignant--</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->nom }} {{ $user->prenom }} -
+                                ID: {{ $user->id }}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit"> Save</button>
+                </form>
+            </td>
         </tr>
         @if ($loop->last)
             </table>

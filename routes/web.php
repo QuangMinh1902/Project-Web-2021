@@ -69,6 +69,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::get('/admin/modification/seance/{id}', [AdminController::class, 'modifyCourse'])->name('modifier.cours');
     Route::put('/admin/update/seance/{id}', [AdminController::class, 'updateCourse'])->name('cours.update');
 
+    // 4.2.5. Suppression d’un cours.
+    Route::delete('/suppression/cours/{id}', [AdminController::class, 'deleteCourse'])->name('suppression.cours');
+
+    // 4.2.6. Association d’un enseignant à un cours
+    Route::get('/associer/cours/{id}', [AdminController::class, 'associerCours'])->name('associer.cours');
+
     //4.3.1. Liste des formations
     Route::get('/formations', [AdminController::class, 'showFormation'])->name('liste.formations');
 
