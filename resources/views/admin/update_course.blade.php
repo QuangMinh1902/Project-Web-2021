@@ -24,7 +24,7 @@
             <br><br>
             <label for="user">Le nouveau responsable :</label>
             <select name="user">
-                <option value="">--Veuillez choisir un/une responsable--</option>
+                <option value="">--Veuillez choisir un nouveau responsable--</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}">{{ $user->nom }} {{ $user->prenom }} - Id: {{$user->id}}</option>
                 @endforeach

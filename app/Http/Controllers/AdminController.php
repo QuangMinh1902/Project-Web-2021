@@ -251,16 +251,15 @@ class AdminController extends Controller
 
     public function detailCours($id)
     {
-        $cours = Cours::query()
-            ->join('formations', 'formations.id', '=', 'cours.formation_id')
+        $cours = Cours::orderBy('cours.intitule', 'asc')
             ->join('cours_users', 'cours_users.cours_id','=','cours.id')
             ->where('cours.user_id', $id)
             ->orWhere('cours_users.user_id',$id)
-            ->orderBy('cours.intitule', 'asc')
             ->select(
                 'cours.intitule as cours',
-                'formations.intitule as formation ',
+                'cours.formation_id as formation ',
             )
+            ->distinct()
             ->get();
         return view('admin.liste_cours_enseignant', ['cours' => $cours]);
     }

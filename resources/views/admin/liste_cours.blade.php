@@ -16,7 +16,7 @@
         @if ($loop->first)
             <table>
                 <tr>
-                    <th>L'INTITULÉ</th>
+                    <th>COURS</th>
                     <th>RESPONSABLE</th>
                     <th>FORMATION</th>
                     <th colspan="2">ACTIONS</th>

@@ -10,5 +10,5 @@ class Formation extends Model
     use HasFactory;
 
     public $table = 'formations';
-    protected $fillable = ['intitule'];
+    protected $fillable = ['intitule','id'];
 }
