@@ -3,6 +3,7 @@
 
 @section('contents')
     <a href="{{ route('create.cours') }}"> Créer un cours</a>
+    <a href="{{ route('enseignant.cours') }}"> Liste des cours par enseignant</a>
     <h1>Liste des cours</h1>
     <a href="{{ route('liste.cours') }}">
         <button type="button" title="Refresh page"> Refresh</button>

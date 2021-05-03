@@ -56,7 +56,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::get('/associer/enseignants/{id}', [AdminController::class, 'associate'])->name('admin.associate');
 
     // voir les cours que l'utilisateur a participé
-    Route::get('/detail/cours/{id}', [AdminController::class, 'showDetail'])->name('detail.cours');
+    Route::get('/voir/cours/{id}', [AdminController::class, 'showDetail'])->name('voir.detail');
 
     // 4.2.1 voir liste des cours
     Route::get('/cours', [AdminController::class, 'showCourse'])->name('liste.cours');
@@ -74,6 +74,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
 
     // 4.2.6. Association d’un enseignant à un cours
     Route::get('/associer/cours/{id}', [AdminController::class, 'associerCours'])->name('associer.cours');
+
+    // 4.2.7. Liste des cours par enseignant
+    Route::get('/enseignant/cours', [AdminController::class, 'listeEnseignant'])->name('enseignant.cours');
+    Route::get('/detail/cours/{id}', [AdminController::class, 'detailCours'])->name('cours.detail');
 
     //4.3.1. Liste des formations
     Route::get('/formations', [AdminController::class, 'showFormation'])->name('liste.formations');

@@ -6,14 +6,6 @@
 
     @forelse ($cours as $c )
         @if ($loop->first)
-            <h2 style="text-align: center">
-                Nom de l'enseignant : {{ $user->nom }} {{ $user->prenom }}
-            </h2>
-            @if (!empty($intitule))
-                <h2 style="text-align: center">
-                    responsable du cours : {{ $intitule }}
-                </h2>
-            @endif
             <table>
                 <tr>
                     <th>COURS</th>
@@ -23,7 +15,7 @@
         @endif
         <tr>
             <td>{{ $c->cours }}</td>
-            <td>{{$c->formation}}</td>
+            <td>{{ $c->formation }}</td>
             <td>{{ $c->nom }} {{ $c->prenom }}</td>
         </tr>
         @if ($loop->last)

@@ -227,4 +227,32 @@ class AdminController extends Controller
             return redirect()->back();
         }
     }
+
+    // 4.2.7. Liste des cours par enseignant
+    public function listeEnseignant()
+    {
+        $enseignants = User::query()
+            ->where('type', '=', 'enseignant')
+            ->orderBy('nom', 'asc')
+            ->orderBy('prenom', 'asc')
+            ->get();
+        return view('admin.cours_enseignants', ['enseignants' => $enseignants]);
+    }
+
+    public function detailCours($id)
+    {
+        $cours = Cours::query()
+            ->join('formations', 'cours.formation_id', '=', 'formations.id')
+            ->join('users', 'users.id', '=', 'cours.user_id')
+            ->where('cours.id', $id)
+            ->orderBy('cours.intitule', 'asc')
+            ->select(
+                'cours.intitule as cours',
+                'formations.intitule as formation ',
+                'users.nom as nom',
+                'users.prenom as prenom',
+            )
+            ->get();
+        return view('admin.liste_cours_enseignant', ['cours' => $cours]);
+    }
 }
