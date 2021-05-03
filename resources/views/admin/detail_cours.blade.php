@@ -17,13 +17,11 @@
             <table>
                 <tr>
                     <th>COURS</th>
-                    <th>FORMATION</th>
                     <th>RESPONSABLE</th>
                 </tr>
         @endif
         <tr>
             <td>{{ $c->cours }}</td>
-            <td>{{$c->formation}}</td>
             <td>{{ $c->nom }} {{ $c->prenom }}</td>
         </tr>
         @if ($loop->last)

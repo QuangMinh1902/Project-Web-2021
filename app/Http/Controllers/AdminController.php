@@ -14,7 +14,16 @@ class AdminController extends Controller
 {
     public function comeHome()
     {
-        $users = User::where('type', null)->get();
+        $users = User::query()
+        ->join('formations','users.formation_id','=','formations.id')
+        ->where('type', null)
+        ->select('users.id as id',
+                'formations.intitule as formation',
+                'formations.id as formation_id',
+                'users.nom as nom',
+                'users.prenom as prenom'
+        )
+        ->get();
         return view('admin.liste_users', ['users' => $users]);
     }
 
@@ -242,7 +251,7 @@ class AdminController extends Controller
     public function detailCours($id)
     {
         $cours = Cours::query()
-            ->join('formations', 'cours.formation_id', '=', 'formations.id')
+            ->join('formations', 'formations.id', '=', 'cours.formation_id')
             ->join('users', 'users.id', '=', 'cours.user_id')
             ->where('cours.id', $id)
             ->orderBy('cours.intitule', 'asc')
