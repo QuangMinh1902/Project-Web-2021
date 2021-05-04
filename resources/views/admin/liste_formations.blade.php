@@ -9,12 +9,15 @@
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>L'INTITULÉ</th>
+                    <th>FORMATION</th>
+                    <th colspan="2">ACTIONS</th>
                 </tr>
         @endif
         <tr>
             <td style="font-weight: bold">{{ $formation->id }}</td>
             <td>{{ $formation->intitule }}</td>
+            <td>MODIFIER</td>
+            <td>SUPPRIMER</td>
         </tr>
         @if ($loop->last)
             </table>

@@ -252,18 +252,23 @@ class AdminController extends Controller
     public function detailCours($id)
     {
         $cours = Cours::query()
-        ->join('formations', 'cours.formation_id', '=', 'formations.id')
-        ->join('cours_users','cours_users.cours_id','=','cours.id')
-        ->where('cours.user_id', $id)
-        ->orWhere('cours_users.user_id',$id)
-        ->select(
-            'cours.intitule as cours',
-            'formations.intitule as formation',
-        )
-        ->distinct()
-        ->orderBy('cours.intitule','asc')
-        ->get();
+            ->join('formations', 'cours.formation_id', '=', 'formations.id')
+            ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->where('cours.user_id', $id)
+            ->orWhere('cours_users.user_id', $id)
+            ->select(
+                'cours.intitule as cours',
+                'formations.intitule as formation',
+            )
+            ->distinct()
+            ->orderBy('cours.intitule', 'asc')
+            ->get();
         return view('admin.liste_cours_enseignant', ['cours' => $cours]);
     }
 
+    public function modifierFormation($id)
+    {
+        $formation = Formation::findOrFail($id);
+        return view();
+    }
 }

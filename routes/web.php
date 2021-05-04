@@ -85,6 +85,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     //4.3.2. création d’une formation
     Route::get('/create/formation', [AdminController::class, 'createFormation'])->name('create.formation');
     Route::post('/store/formation', [AdminController::class, 'storeFormation'])->name('store.formation');
+
+    // 4.3.3. Modification d’une formation
+    Route::get('/admin/modification/formation/{id}', [AdminController::class, 'modifierFormation'])->name('update.formation');
+    Route::put('/admin/update/formation/{id}', [AdminController::class, 'updateFormation'])->name('formation.update');
 });
 
 //  Partie d’utilisateur :
