@@ -269,6 +269,18 @@ class AdminController extends Controller
     public function modifierFormation($id)
     {
         $formation = Formation::findOrFail($id);
-        return view();
+        return view('admin.update_formation', ['formation' => $formation]);
+    }
+
+    public function updateFormation(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'formation' => 'required|string',
+        ]);
+        Formation::where('id', $id)->update([
+            'intitule' => $validated['formation'],
+        ]);
+        $request->session()->flash('etat', 'Modification effectuée');
+        return redirect()->route('liste.formations');
     }
 }
