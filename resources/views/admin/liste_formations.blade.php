@@ -16,15 +16,24 @@
         <tr>
             <td style="font-weight: bold">{{ $formation->id }}</td>
             <td>{{ $formation->intitule }}</td>
-            <td>MODIFIER</td>
-            <td>SUPPRIMER</td>
+            <td><a href="{{ route('modifier.formation', ['id' => $formation->id]) }}">MODIFIER</a></td>
+            <td>
+                <form action="{{ route('suppression.formation', ['id' => $formation->id]) }}" method="post"
+                    onsubmit="return confirm('Are you sure ? ')">
+                    @method('delete')
+                    @csrf
+                    <button>
+                        Supprimer
+                    </button>
+                </form>
+            </td>
         </tr>
         @if ($loop->last)
             </table>
         @endif
     @empty
         <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
-            Il n'y a aucune formations
+            Il n'y a aucune formation
         </p>
     @endforelse
     {{ $formations->links() }}

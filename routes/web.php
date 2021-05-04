@@ -87,8 +87,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     Route::post('/store/formation', [AdminController::class, 'storeFormation'])->name('store.formation');
 
     // 4.3.3. Modification d’une formation
-    Route::get('/admin/modification/formation/{id}', [AdminController::class, 'modifierFormation'])->name('update.formation');
+    Route::get('/admin/modification/formation/{id}', [AdminController::class, 'modifierFormation'])->name('modifier.formation');
     Route::put('/admin/update/formation/{id}', [AdminController::class, 'updateFormation'])->name('formation.update');
+
+    // 4.3.4. Suppression d’une formation
+    Route::delete('/suppression/formation/{id}', [AdminController::class, 'supprimerFormation'])->name('suppression.formation');
 });
 
 //  Partie d’utilisateur :

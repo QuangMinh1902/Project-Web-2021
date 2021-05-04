@@ -156,7 +156,7 @@ class AdminController extends Controller
 
     public function showFormation()
     {
-        $formations = Formation::simplePaginate(4);;
+        $formations = Formation::simplePaginate(4);
         return view('admin.liste_formations', ['formations' => $formations]);
     }
 
@@ -282,5 +282,14 @@ class AdminController extends Controller
         ]);
         $request->session()->flash('etat', 'Modification effectuée');
         return redirect()->route('liste.formations');
+    }
+
+    public function supprimerFormation(Request $request, $id)
+    {
+        $nom = Formation::where(['id' => $id])->first()->intitule;
+        $formation = Formation::find($id);
+        $formation->delete();
+        $request->session()->flash('etat', 'Le cours ' . $nom . ' a été supprimé');
+        return redirect()->back();
     }
 }
