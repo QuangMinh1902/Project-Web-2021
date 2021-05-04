@@ -23,7 +23,7 @@
             <td style="font-weight: bold">{{ $user->id }}</td>
             <td>{{ $user->nom }} {{ $user->prenom }}</td>
             @if ($user->formation_id == null)
-                <td>RIEN</td>
+                <td>NULL</td>
                 <td>ENSEIGNANT</td>
             @else
                 <td>{{ $user->formation }}</td>

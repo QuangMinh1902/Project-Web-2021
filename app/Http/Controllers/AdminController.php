@@ -16,7 +16,7 @@ class AdminController extends Controller
     {
         $users = User::query()
             ->leftjoin('formations', 'users.formation_id', '=', 'formations.id')
-            ->where('users.type','=', null)
+            ->where('users.type', '=', null)
             ->select(
                 'users.id as id',
                 'formations.intitule as formation',
@@ -85,15 +85,23 @@ class AdminController extends Controller
         }
         $cours = DB::table('cours_users')
             ->join('cours', 'cours_users.cours_id', '=', 'cours.id')
-            ->join('users', 'cours.user_id', '=', 'users.id')
+            ->join('users','cours.user_id','=','users.id')
+            ->join('formations', 'cours.formation_id', '=', 'formations.id')
             ->where('cours_users.user_id', $id)
-            ->select('cours.*', 'users.*')->get();
+            ->select(
+                'cours.intitule as intitule',
+                'users.nom as nom',
+                'users.prenom as prenom',
+                'formations.intitule as formation'
+            )
+            ->distinct()
+            ->get();
 
-        if ($cours->count() < 1) {
-            $cours = DB::table('cours')
-                ->join('users', 'cours.user_id', '=', 'users.id')
-                ->where('user_id', $id)->select('cours.*', 'users.*')->get();
-        }
+        // if ($cours->count() < 1) {
+        //     $cours = DB::table('cours')
+        //         ->join('users', 'cours.user_id', '=', 'users.id')
+        //         ->where('user_id', $id)->select('cours.*', 'users.*')->get();
+        // }
         return view('admin.detail_cours', ['cours' => $cours, 'user' => $user, 'intitule' => $intitule]);
     }
 
@@ -290,10 +298,11 @@ class AdminController extends Controller
         $formation = Formation::find($id);
         $formation->delete();
         $cours = Cours::query()
-            ->join('cours.users', 'cours.users.cours_id', '=', 'cours.id')
+            ->leftjoin('cours_users', 'cours_users.cours_id', '=', 'cours.id')
             ->where('cours.formation_id', $id)
+            ->select()
             ->get();
-        $cours->detlete();
+        $cours->delete();
         $request->session()->flash('etat', 'La formation ' . $nom . ' a été supprimé');
         return redirect()->back();
     }
