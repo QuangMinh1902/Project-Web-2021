@@ -306,6 +306,9 @@ class AdminController extends Controller
         $cours->delete();
         $formation = Formation::find($id);
         $formation->delete();
+        User::where('formation_id', $id)->update([
+            'formation_id' => null,
+        ]);
         $request->session()->flash('etat', 'La formation ' . $nom . ' a été supprimé');
         return redirect()->back();
     }
