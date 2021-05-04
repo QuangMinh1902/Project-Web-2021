@@ -292,14 +292,18 @@ class AdminController extends Controller
         $request->session()->flash('etat', 'Modification effectuée');
         return redirect()->route('liste.formations');
     }
-                
+
     public function supprimerFormation(Request $request, $id)
     {
         $nom = Formation::where(['id' => $id])->first()->intitule;
-        Cours::leftjoin('cours_users', 'cours_users.cours_id', '=', 'cours.id')
-            ->leftjoin('plannings', 'cours.id', '=', 'plannings.cours_id')
-            ->join('formations', 'cours.formation_id', '=', 'formations.id')
-            ->where('cours.formation_id', $id)->delete();
+        $plannings = Planning::join('cours', 'cours.id', '=', 'plannings.cours_id')
+            ->where('cours.formation_id', $id);
+        $coursUsers = CoursUser::join('cours', 'cours.id', '=', 'cours_users.cours_id')
+            ->where('cours.formation_id', $id);
+        $cours = Cours::where('cours.formation_id', $id);
+        $plannings->delete();
+        $coursUsers->delete();
+        $cours->delete();
         $formation = Formation::find($id);
         $formation->delete();
         $request->session()->flash('etat', 'La formation ' . $nom . ' a été supprimé');

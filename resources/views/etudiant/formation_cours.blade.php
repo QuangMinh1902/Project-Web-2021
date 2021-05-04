@@ -15,7 +15,7 @@
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>L'INTITULÉ DU COURS</th>
+                    <th>COURS</th>
                     <th>RESPONSABLE</th>
                     <th colspan="2">ACTIONS</th>
                 </tr>
@@ -37,7 +37,7 @@
         @endif
     @empty
         <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
-            Votre formation n'a pas ce cours.
+            Aucun cours
         </p>
     @endforelse
 @endsection
