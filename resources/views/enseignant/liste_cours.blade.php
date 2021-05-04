@@ -16,7 +16,7 @@
         <tr>
             <td style="font-weight: bold">{{ $c->cours_id }}</td>
             <td>{{ $c->cours_name }}</td>
-            <td>{{$c->formation_name}}</td>
+            <td>{{ $c->formation_name }}</td>
         </tr>
         @if ($loop->last)
             </table>
