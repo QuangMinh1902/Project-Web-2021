@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cours;
 use App\Models\CoursUser;
 use App\Models\Formation;
+use App\Models\Planning;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +86,7 @@ class AdminController extends Controller
         }
         $cours = DB::table('cours_users')
             ->join('cours', 'cours_users.cours_id', '=', 'cours.id')
-            ->join('users','cours.user_id','=','users.id')
+            ->join('users', 'cours.user_id', '=', 'users.id')
             ->join('formations', 'cours.formation_id', '=', 'formations.id')
             ->where('cours_users.user_id', $id)
             ->select(
@@ -291,18 +292,16 @@ class AdminController extends Controller
         $request->session()->flash('etat', 'Modification effectuée');
         return redirect()->route('liste.formations');
     }
-
+                
     public function supprimerFormation(Request $request, $id)
     {
         $nom = Formation::where(['id' => $id])->first()->intitule;
+        Cours::leftjoin('cours_users', 'cours_users.cours_id', '=', 'cours.id')
+            ->leftjoin('plannings', 'cours.id', '=', 'plannings.cours_id')
+            ->join('formations', 'cours.formation_id', '=', 'formations.id')
+            ->where('cours.formation_id', $id)->delete();
         $formation = Formation::find($id);
         $formation->delete();
-        $cours = Cours::query()
-            ->leftjoin('cours_users', 'cours_users.cours_id', '=', 'cours.id')
-            ->where('cours.formation_id', $id)
-            ->select()
-            ->get();
-        $cours->delete();
         $request->session()->flash('etat', 'La formation ' . $nom . ' a été supprimé');
         return redirect()->back();
     }
