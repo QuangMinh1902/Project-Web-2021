@@ -15,8 +15,8 @@ class AdminController extends Controller
     public function comeHome()
     {
         $users = User::query()
-            ->join('formations', 'users.formation_id', '=', 'formations.id')
-            ->where('type', null)
+            ->leftjoin('formations', 'users.formation_id', '=', 'formations.id')
+            ->where('users.type','=', null)
             ->select(
                 'users.id as id',
                 'formations.intitule as formation',
@@ -101,7 +101,7 @@ class AdminController extends Controller
     public function showCourse(Request $request)
     {
         $cours = Cours::orderBy('cours.intitule', 'asc')
-            ->join('formations', 'cours.formation_id', '=', 'formations.id')
+            ->leftJoin('formations', 'cours.formation_id', '=', 'formations.id')
             ->join('users', 'cours.user_id', '=', 'users.id')
             ->where([
                 [function ($query) use ($request) {
@@ -289,7 +289,12 @@ class AdminController extends Controller
         $nom = Formation::where(['id' => $id])->first()->intitule;
         $formation = Formation::find($id);
         $formation->delete();
-        $request->session()->flash('etat', 'Le cours ' . $nom . ' a été supprimé');
+        $cours = Cours::query()
+            ->join('cours.users', 'cours.users.cours_id', '=', 'cours.id')
+            ->where('cours.formation_id', $id)
+            ->get();
+        $cours->detlete();
+        $request->session()->flash('etat', 'La formation ' . $nom . ' a été supprimé');
         return redirect()->back();
     }
 }

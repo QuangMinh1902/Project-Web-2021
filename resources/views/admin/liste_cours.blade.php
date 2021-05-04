@@ -26,7 +26,11 @@
         <tr>
             <td>{{ $c->cours_name }}</td>
             <td>{{ $c->user_nom }} {{ $c->user_prenom }}</td>
-            <td>{{ $c->formation }}</td>
+            @if (empty($c->formation))
+            <td style="color: #8b008b; font-weight: bold">La formation a été supprimée</td>
+            @else
+                <td>{{ $c->formation }}</td>
+            @endif
             <td><a href="{{ route('modifier.cours', ['id' => $c->cours_id]) }}"> Modifier</a></td>
             <td>
                 <form action="{{ route('suppression.cours', ['id' => $c->cours_id]) }}" method="post"
