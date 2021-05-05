@@ -2,6 +2,11 @@
 @section('title', 'Détail des cours')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('liste.enseignants') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnexion</a>
+        </li>
+    </ul>
     <h1>Les cours participé</h1>
     <h2 style="text-align: center">
         Nom de l'enseignant : {{ $user->nom }} {{ $user->prenom }}

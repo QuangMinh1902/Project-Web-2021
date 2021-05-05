@@ -11,6 +11,8 @@
     <h1>Liste des formations</h1>
     @forelse ($formations as $formation )
         @if ($loop->first)
+
+        <br>
             <table>
                 <tr>
                     <th>ID</th>
@@ -21,7 +23,7 @@
         <tr>
             <td style="font-weight: bold">{{ $formation->id }}</td>
             <td>{{ $formation->intitule }}</td>
-            <td><a href="{{ route('modifier.formation', ['id' => $formation->id]) }}">MODIFIER</a></td>
+            <td><a class="bouncy" style="background-color:#20B2AA" href="{{ route('modifier.formation', ['id' => $formation->id]) }}">MODIFIER</a></td>
             <td>
                 <form action="{{ route('suppression.formation', ['id' => $formation->id]) }}" method="post"
                     onsubmit="return confirm('Are you sure ? ')">
@@ -41,5 +43,4 @@
             Il n'y a aucune formation
         </p>
     @endforelse
-    {{ $formations->links() }}
 @endsection

@@ -163,7 +163,7 @@ class AdminController extends Controller
     //4.3.1. Liste des formations
     public function showFormation()
     {
-        $formations = Formation::simplePaginate(4);
+        $formations = Formation::all();
         return view('admin.liste_formations', ['formations' => $formations]);
     }
 
@@ -225,6 +225,7 @@ class AdminController extends Controller
         $cours = Cours::find($id);
         $cours->delete();
         CoursUser::where('cours_id', $id)->delete();
+        Planning::where('cours_id', $id)->delete();
         $request->session()->flash('etat', 'Le cours ' . $nom . ' a été supprimé');
         return redirect()->back();
     }

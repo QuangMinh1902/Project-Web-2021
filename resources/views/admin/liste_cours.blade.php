@@ -13,19 +13,20 @@
         <input type="text" name="term" placeholder="Rechercher un cours" id="term" required>
         <button type="submit">Rechercher</button>
         <a class="bouncy" style="background-color:#DC143C;margin-left: 120px;margin-top: 5px"
-        href="{{ route('liste.cours') }}">
-        Recharger la page
+            href="{{ route('liste.cours') }}">
+            Recharger la page
         </a>
     </form>
     @forelse ($cours as $c )
 
-    @if ($loop->first)
-    <div style="text-align: center">
-        {{ $cours->links() }}
-    </div>
-    <br>
+        @if ($loop->first)
+            <div style="text-align: center">
+                {{ $cours->links() }}
+            </div>
+            <br>
             <table>
                 <tr>
+                    <th>ID</th>
                     <th>COURS</th>
                     <th>RESPONSABLE</th>
                     <th>FORMATION</th>
@@ -34,6 +35,7 @@
                 </tr>
         @endif
         <tr>
+            <td style="font-weight: bold">{{ $c->cours_id }}</td>
             <td>{{ $c->cours_name }}</td>
             <td>{{ $c->user_nom }} {{ $c->user_prenom }}</td>
             @if (empty($c->formation))
@@ -41,7 +43,8 @@
             @else
                 <td>{{ $c->formation }}</td>
             @endif
-            <td><a href="{{ route('modifier.cours', ['id' => $c->cours_id]) }}"> Modifier</a></td>
+            <td><a class="bouncy" style="background-color:#DAA520"
+                    href="{{ route('modifier.cours', ['id' => $c->cours_id]) }}"> Modifier</a></td>
             <td>
                 <form action="{{ route('suppression.cours', ['id' => $c->cours_id]) }}" method="post"
                     onsubmit="return confirm('Are you sure ? ')">
@@ -73,7 +76,7 @@
             Il n'y a aucun cours
         </p>
         <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
-                Appuyer "Créer un cours" pour ajouter un nouveau cours
+            Appuyer "Créer un cours" pour ajouter un nouveau cours
         </p>
     @endforelse
 @endsection
