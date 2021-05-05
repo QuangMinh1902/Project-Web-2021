@@ -3,7 +3,10 @@
 @section('title', 'Liste des enseignants')
 
 @section('contents')
-    <a href="{{ route('logout') }}">Déconnection</a>
+    <ul>
+        <li><a class="active" href="{{ route('liste.cours') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a></li>
+    </ul>
     <h1>Liste des enseignants</h1>
     @forelse ($enseignants as $enseignant )
         @if ($loop->first)
@@ -23,5 +26,8 @@
             </table>
         @endif
     @empty
+        <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
+            Il n'y a aucun enseignant
+        </p>
     @endforelse
 @endsection

@@ -111,7 +111,7 @@
         }
 
         button {
-            background-color: #ff1493;
+            background-color: #9932CC;
             border-radius: 30px;
             color: white;
             font-size: 18px;
@@ -122,7 +122,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #20b2aa;
+            background-color: #008b8b;
         }
 
         li {
