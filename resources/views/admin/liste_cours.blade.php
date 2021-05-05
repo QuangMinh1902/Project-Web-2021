@@ -2,8 +2,13 @@
 @section('title', 'Liste des cours')
 
 @section('contents')
-    <a href="{{ route('create.cours') }}"> Créer un cours</a>
-    <a href="{{ route('enseignant.cours') }}"> Liste des cours par enseignant</a>
+    <ul>
+        <li><a class="active" href="{{ route('admin.home') }}">Back</a></li>
+        <li><a href="{{ route('create.cours') }}"> Créer un cours</a></li>
+        <li><a href="{{ route('enseignant.cours') }}"> Liste des cours par enseignant</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1>Liste des cours</h1>
     <a href="{{ route('liste.cours') }}">
         <button type="button" title="Refresh page"> Refresh</button>
@@ -27,7 +32,7 @@
             <td>{{ $c->cours_name }}</td>
             <td>{{ $c->user_nom }} {{ $c->user_prenom }}</td>
             @if (empty($c->formation))
-            <td style="color: #8b008b; font-weight: bold">La formation a été supprimée</td>
+                <td style="color: #8b008b; font-weight: bold">La formation a été supprimée</td>
             @else
                 <td>{{ $c->formation }}</td>
             @endif

@@ -3,10 +3,14 @@
 @section('title', 'Page Admin')
 
 @section('contents')
-    <a href="{{ route('logout') }}">Déconnection</a>
-    <a href="{{ route('liste.enseignants') }}">liste des enseignants</a>
-    <a href="{{ route('liste.cours') }}">gestion des cours</a>
-    <a href="{{ route('liste.formations') }}">gestion des formations</a>
+    <ul>
+        <li><a class="active" href="{{ route('admin.home') }}">Home</a></li>
+        <li><a href="{{ route('liste.enseignants') }}">Liste des enseignants</a></li>
+        <li><a href="{{ route('liste.cours') }}">Gestion des cours</a></li>
+        <li><a href="{{ route('liste.formations') }}">Gestion des formations</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1>Liste des demandes</h1>
     @forelse ($users as $user )
         @if ($loop->first)
@@ -36,5 +40,8 @@
             </table>
         @endif
     @empty
+        <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
+            Il n'y a aucune demande à vérifier
+        </p>
     @endforelse
 @endsection

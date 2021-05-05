@@ -12,15 +12,13 @@
                 {{ $message }}
             @enderror
         </span>
-        <br>
-        <label for="Prenom">Prénom :</label>
+        <label for="Prenom"> Prénom :</label>
         <input type="text" name="prenom" placeholder="Votre prénom" value="{{ Auth::user()->prenom }}">
         <span class="error">
             @error('prenom')
                 {{ $message }}
             @enderror
         </span>
-        <br>
         <input type="submit" name="signup_submit" value="Save">
     </form>
 @endsection

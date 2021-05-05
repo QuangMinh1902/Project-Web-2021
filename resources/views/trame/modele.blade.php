@@ -110,6 +110,13 @@
             }
         }
 
+        button {
+            background-color: #ff1493;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+        }
+
         ul {
             list-style-type: none;
             margin: 0;
@@ -222,6 +229,7 @@
             top: 12px;
             left: -6px;
         }
+
     </style>
 </head>
 

@@ -41,7 +41,7 @@ Route::post('/store/teacher', [RegisterUserController::class, 'storeTeacher'])->
 // 4. Partie d’administrateur :
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
     // Page admin
-    Route::get('/home', [AdminController::class, 'comeHome']);
+    Route::get('/home', [AdminController::class, 'comeHome'])->name('admin.home');
 
     // accepter un utilisateur
     Route::get('/accept/{id}', [AdminController::class, 'accept'])->name('admin.accept');
