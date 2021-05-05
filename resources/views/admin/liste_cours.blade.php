@@ -18,7 +18,12 @@
         </a>
     </form>
     @forelse ($cours as $c )
-        @if ($loop->first)
+
+    @if ($loop->first)
+    <div style="text-align: center">
+        {{ $cours->links() }}
+    </div>
+    <br>
             <table>
                 <tr>
                     <th>COURS</th>
@@ -71,5 +76,4 @@
                 Appuyer "Créer un cours" pour ajouter un nouveau cours
         </p>
     @endforelse
-    {{ $cours->links() }}
 @endsection

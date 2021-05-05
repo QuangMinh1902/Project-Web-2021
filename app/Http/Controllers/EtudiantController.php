@@ -47,7 +47,7 @@ class EtudiantController extends Controller
     public function unsubscribe($id)
     {
         CoursUser::where(['cours_id' => $id, 'user_id' => Auth::id()])->delete();
-        return back()->with('etat', 'Déinscription avec succès');
+        return back()->with('etat', 'Désinscription avec succès');
     }
 
     // 1.2.3. Liste des cours auxquels l’étudiant est inscrit

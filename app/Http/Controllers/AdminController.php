@@ -58,7 +58,7 @@ class AdminController extends Controller
         return view('admin.liste_enseignants', ['users' => $users, 'cours' => $cours]);
     }
 
-    // Association d’un enseignant à un cours
+    // 4.1.3. Association d’un enseignant à un cours
     public function associate(Request $request, $id)
     {
         $request->validate([
@@ -130,6 +130,7 @@ class AdminController extends Controller
         return view('admin.liste_cours', ['cours' => $cours, 'users' => $users]);
     }
 
+    // 4.2.3. Création d’un cours
     public function createCours()
     {
         $users = User::query()->select()
@@ -138,7 +139,8 @@ class AdminController extends Controller
             ->orderBy('nom', 'asc')
             ->orderBy('prenom', 'asc')
             ->get();
-        return view('admin.createCours', ['users' => $users]);
+        $formations = Formation::query()->select()->get();
+        return view('admin.createCours', ['users' => $users, 'formations' => $formations]);
     }
 
     public function storeCours(Request $request)
@@ -146,22 +148,26 @@ class AdminController extends Controller
         $validated = $request->validate([
             'intitule' => 'required|string|min:2|max:50|unique:cours',
             'userID' => 'required|integer',
+            'formation' => 'required|integer',
         ]);
         $cours = new Cours();
         $cours->intitule = $validated['intitule'];
         $cours->user_id = $validated['userID'];
+        $cours->formation_id = $validated['formation'];
         $cours->save();
 
         $request->session()->flash('etat', 'Le nouveau cours a été créé');
         return redirect()->route('liste.cours');
     }
 
+    //4.3.1. Liste des formations
     public function showFormation()
     {
         $formations = Formation::simplePaginate(4);
         return view('admin.liste_formations', ['formations' => $formations]);
     }
 
+    //4.3.2. création d’une formation
     public function createFormation()
     {
         return view('admin.createFormation');

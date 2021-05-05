@@ -35,6 +35,21 @@
             </span>
         </p>
         <p>
+            <label for="formation">La formation :</label>
+            <select name="formation">
+                <option value="">--Veuillez choisir une formation--</option>
+                @foreach ($formations as $formation)
+                    <option value="{{ $formation->id }}">{{ $formation->intitule }}
+                    </option>
+                @endforeach
+            </select>
+            <span class="error">
+                @error('formation')
+                    {{ $message }}
+                @enderror
+            </span>
+        </p>
+        <p>
             <button type="submit">Envoyer</button>
         </p>
     </form>
