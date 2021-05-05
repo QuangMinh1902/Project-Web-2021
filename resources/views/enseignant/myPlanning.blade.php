@@ -2,8 +2,13 @@
 @section('title', 'Vos Plannings')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+        <li> <a href="{{ route('ajout.seance') }}">Créer une séance</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1> Vos Plannings</h1>
-    <a href="{{ route('ajout.seance') }}">Créer une séance</a>
     @forelse ($plannings as $p )
         @if ($loop->first)
             <table>
@@ -39,7 +44,10 @@
         @endif
     @empty
         <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
-            Aucun Planning.
+            Aucun Planning
+        </p>
+        <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
+            Appuyer "Créer une séance" pour ajouter une nouvelle séance
         </p>
     @endforelse
 @endsection

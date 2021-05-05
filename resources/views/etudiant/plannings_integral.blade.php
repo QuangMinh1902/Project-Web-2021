@@ -14,7 +14,7 @@
         <button type="submit">Rechercher</button>
         <a class="bouncy" style="background-color:#DC143C;margin-left: 120px;margin-top: 5px"
             href="{{ route('plannings.integral') }}">
-            Recharger la page
+            Recharger les plannings
         </a>
     </form>
     @forelse ($plannings as $p )

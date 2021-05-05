@@ -2,6 +2,11 @@
 @section('title', 'Responsable')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1>Les cours dont vous êtes responsable </h1>
 
     @forelse ($cours as $c )

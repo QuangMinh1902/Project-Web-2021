@@ -2,14 +2,20 @@
 @section('title', 'Vos Plannings')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+        <li><a href="{{ route('week') }}">Voir par la semaine </a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1> Vos Plannings</h1>
-    <a href="{{ route('week') }}">Voir par la semaine </a>
-    <a href="{{ route('plannings.integral') }}">
-        <button type="button" title="Refresh page"> Refresh</button>
-    </a>
-    <form class="form-wrapper cf" action="{{ route('plannings.integral') }}" method="GET" role="search">
+    <form class="form-wrapper cf" action="{{ route('enseignant.plannings') }}" method="GET" role="search">
         <input type="text" name="term" placeholder="Rechercher un cours" id="term" required>
         <button type="submit">Rechercher</button>
+        <a class="bouncy" style="background-color:#DC143C;margin-left: 120px;margin-top: 5px"
+            href="{{ route('enseignant.plannings') }}">
+            Recharger les plannings
+        </a>
     </form>
     @forelse ($plannings as $p )
         @if ($loop->first)

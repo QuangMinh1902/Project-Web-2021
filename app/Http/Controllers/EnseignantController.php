@@ -17,7 +17,7 @@ class EnseignantController extends Controller
             ->join('formations', 'cours.formation_id', '=', 'formations.id')
             ->orderBy('cours.intitule', 'asc')
             ->select('cours.intitule as cours_name', 'formations.intitule as formation_name', 'cours.id as cours_id')
-            ->where('user_id', Auth::id())
+            ->where('cours.user_id', Auth::id())
             ->get();
         return view('enseignant.liste_cours', ['cours' => $cours]);
     }

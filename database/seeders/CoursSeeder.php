@@ -22,7 +22,7 @@ class CoursSeeder extends Seeder
         ]);
         DB::table('cours')->insert([
             'intitule' => 'giao duc cong dan',
-            'user_id' => '6',
+            'user_id' => '4',
             'formation_id' => '2',
             'created_at' => date("Y-m-d H:i:s")
         ]);

@@ -21,7 +21,7 @@
     </ul>
     <p style="color: yellowgreen; font-size: 25px;text-align: center">
         Salut <strong>{{ Auth::user()->prenom }}</strong>
-        - Votre ID est : {{ Auth::id() }}
+        - Votre ID : {{ Auth::id() }}
         @if (Auth::user()->type == null)
             <br>
             <p style="color: red; text-align: center;font-weight: bold;font-size: 20px">

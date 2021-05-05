@@ -3,6 +3,11 @@
 @section('title', 'Plannings par la semaine ')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('enseignant.plannings') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h2>Choisir une semaine et une année </h2>
     <form action="{{ route('show.plannings') }}" method="GET">
         @csrf
@@ -13,7 +18,6 @@
                 {{ $message }}
             @enderror
         </span>
-        <br>
         <label for="year">Year:</label>
         <input type="number" name="year" value="{{ old('year') }}">
         <span class="error">
@@ -21,7 +25,6 @@
                 {{ $message }}
             @enderror
         </span>
-        <br>
         <input type="submit" value="envoyer">
     </form>
 
@@ -54,5 +57,4 @@
             </p>
         @endforelse
     @endif
-    {{ $plannings->links() }}
 @endsection
