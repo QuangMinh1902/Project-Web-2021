@@ -22,7 +22,7 @@
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>L'INTITULÉ DU COURS</th>
+                    <th>COURS</th>
                     <th>RESPONSABLE</th>
                     <th>DATE_DEBUT</th>
                     <th>DATE_FIN</th>

@@ -27,7 +27,7 @@
             <td>{{ $p->user_prenom }} {{ $p->user_nom }}</td>
             <td>{{ $p->start }}</td>
             <td>{{ $p->end }}</td>
-            <td><a href="{{ route('modifier.seance', ['id' => $p->id]) }}">Modifier</a></td>
+            <td><a class="bouncy" style="background-color:#FF8C00" href="{{ route('modifier.seance', ['id' => $p->id]) }}">Modifier</a></td>
             <td>
                 <form action="{{ route('suppression.seance', ['id' => $p->id]) }}" method="post"
                     onsubmit="return confirm('Are you sure ? ')">

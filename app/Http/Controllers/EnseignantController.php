@@ -102,7 +102,7 @@ class EnseignantController extends Controller
                 'users.prenom as user_prenom',
                 'plannings.id as id'
             )
-            ->simplePaginate(5);
+            ->get();
         return view('enseignant.myPlanning', ['plannings' => $plannings]);
     }
 
@@ -113,7 +113,9 @@ class EnseignantController extends Controller
             ->join('cours_users', 'cours_users.cours_id', '=', 'cours.id')
             ->where('cours_users.user_id', Auth::id())
             ->orWhere('cours.user_id', Auth::id())
-            ->orderBy('intitule', 'asc')
+            ->orderBy('cours.intitule', 'asc')
+            ->select('cours.intitule','cours.id')
+            ->distinct()
             ->get();
         return view('enseignant.ajout_seance', ['cours' => $cours]);
     }
