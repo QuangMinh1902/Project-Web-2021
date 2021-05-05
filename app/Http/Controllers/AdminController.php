@@ -147,7 +147,6 @@ class AdminController extends Controller
             'intitule' => 'required|string|min:2|max:50|unique:cours',
             'userID' => 'required|integer',
         ]);
-
         $cours = new Cours();
         $cours->intitule = $validated['intitule'];
         $cours->user_id = $validated['userID'];

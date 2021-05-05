@@ -2,13 +2,19 @@
 @section('title', 'Votre Formation')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1>Les cours dans votre formation </h1>
-    <a href="{{ route('list.course') }}">
-        <button type="button" title="Refresh page"> Refresh</button>
-    </a>
     <form class="form-wrapper cf" action="{{ route('list.course') }}" method="GET" role="search">
         <input type="text" name="term" placeholder="Rechercher un cours" id="term" required>
         <button type="submit">Rechercher</button>
+        <a class="bouncy" style="background-color:#DC143C;margin-left: 120px;margin-top: 5px"
+        href="{{ route('list.course') }}">
+        Recharger la page
+        </a>
     </form>
     @forelse ($cours as $c )
         @if ($loop->first)

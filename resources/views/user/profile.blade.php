@@ -3,6 +3,12 @@
 @section('title', 'Page User')
 
 @section('contents')
+<ul>
+    <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+    <li style="float:right">  <a href="{{ route('logout') }}">Déconnection</a>
+    </li>
+</ul>
+<h2>Modification du nom/prénom</h2>
     <form method="post" action="{{ route('update.profile', ['id' => Auth::user()->id]) }}">
         @csrf
         <label for="Nom">Nom :</label>

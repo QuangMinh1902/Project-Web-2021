@@ -1,6 +1,11 @@
 @extends('trame.password_reset_modele')
 
 @section('title', 'Changement du mot de passe')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <form id="signup" method="post" action="{{ route('update_password') }}">
         @csrf
         <h1>Change your password</h1>

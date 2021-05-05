@@ -2,6 +2,11 @@
 @section('title', 'Vos inscriptions')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1> Liste des cours inscrits</h1>
 
     @forelse ($cours as $c )
