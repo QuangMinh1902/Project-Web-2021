@@ -3,6 +3,14 @@
 @section('title', 'Home')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('user.home') }}">Home</a></li>
+        <li><a href="{{ route('liste.enseignants') }}">Liste des enseignants</a></li>
+        <li><a href="{{ route('liste.cours') }}">Gestion des cours</a></li>
+        <li><a href="{{ route('liste.formations') }}">Gestion des formations</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <a href="{{ route('user.profile') }}">Profile</a>
     <a href="{{ route('change_password') }}">Changer le mot de passe</a>
     <a href="{{ route('logout') }}">Déconnection</a>

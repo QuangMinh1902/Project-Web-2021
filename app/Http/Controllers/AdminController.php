@@ -97,12 +97,6 @@ class AdminController extends Controller
             )
             ->distinct()
             ->get();
-
-        // if ($cours->count() < 1) {
-        //     $cours = DB::table('cours')
-        //         ->join('users', 'cours.user_id', '=', 'users.id')
-        //         ->where('user_id', $id)->select('cours.*', 'users.*')->get();
-        // }
         return view('admin.detail_cours', ['cours' => $cours, 'user' => $user, 'intitule' => $intitule]);
     }
 

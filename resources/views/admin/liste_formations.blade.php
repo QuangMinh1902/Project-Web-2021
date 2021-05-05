@@ -2,7 +2,12 @@
 @section('title', 'Liste des formations')
 
 @section('contents')
-    <a href="{{ route('create.formation') }}"> Créer une formation</a>
+    <ul>
+        <li><a class="active" href="{{ route('admin.home') }}">Back</a></li>
+        <li><a href="{{ route('create.formation') }}"> Créer une formation</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h1>Liste des formations</h1>
     @forelse ($formations as $formation )
         @if ($loop->first)

@@ -39,5 +39,8 @@
             </table>
         @endif
     @empty
+        <p style="text-align: center; color:red;font-weight: bold;font-size: 20px">
+           Il n'y a aucun enseignant
+        </p>
     @endforelse
 @endsection

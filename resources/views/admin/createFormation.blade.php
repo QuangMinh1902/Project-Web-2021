@@ -3,6 +3,11 @@
 @section('title', 'Créer une formation')
 
 @section('contents')
+    <ul>
+        <li><a class="active" href="{{ route('liste.formations') }}">Back</a></li>
+        <li style="float:right"> <a href="{{ route('logout') }}">Déconnection</a>
+        </li>
+    </ul>
     <h2>Créer un cours</h2>
     <form method="post" action="{{ route('store.formation') }}">
         @csrf
