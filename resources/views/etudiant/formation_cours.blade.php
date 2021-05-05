@@ -13,7 +13,7 @@
         <button type="submit">Rechercher</button>
         <a class="bouncy" style="background-color:#DC143C;margin-left: 120px;margin-top: 5px"
             href="{{ route('list.course') }}">
-            Recharger la page
+            Recharger les cours
         </a>
     </form>
     @forelse ($cours as $c )
