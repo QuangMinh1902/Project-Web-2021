@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Mer 22 Décembre 2021 à 21:58
--- Version du serveur :  10.0.38-MariaDB-0ubuntu0.16.04.1
--- Version de PHP :  7.0.33-47+ubuntu16.04.1+deb.sury.org+1
+-- Hôte : 127.0.0.1:3306
+-- Généré le : jeu. 23 déc. 2021 à 17:39
+-- Version du serveur : 5.7.36
+-- Version de PHP : 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `c4stage`
+-- Base de données : `schedules`
 --
 
 -- --------------------------------------------------------
@@ -26,17 +27,21 @@ SET time_zone = "+00:00";
 -- Structure de la table `cours`
 --
 
-CREATE TABLE `cours` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `cours`;
+CREATE TABLE IF NOT EXISTS `cours` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `intitule` varchar(50) NOT NULL,
   `user_id` int(11) NOT NULL,
   `formation_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `formation_id` (`formation_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `cours`
+-- Déchargement des données de la table `cours`
 --
 
 INSERT INTO `cours` (`id`, `intitule`, `user_id`, `formation_id`, `created_at`, `updated_at`) VALUES
@@ -67,13 +72,16 @@ INSERT INTO `cours` (`id`, `intitule`, `user_id`, `formation_id`, `created_at`, 
 -- Structure de la table `cours_users`
 --
 
-CREATE TABLE `cours_users` (
+DROP TABLE IF EXISTS `cours_users`;
+CREATE TABLE IF NOT EXISTS `cours_users` (
   `cours_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`cours_id`,`user_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `cours_users`
+-- Déchargement des données de la table `cours_users`
 --
 
 INSERT INTO `cours_users` (`cours_id`, `user_id`) VALUES
@@ -108,15 +116,17 @@ INSERT INTO `cours_users` (`cours_id`, `user_id`) VALUES
 -- Structure de la table `formations`
 --
 
-CREATE TABLE `formations` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `formations`;
+CREATE TABLE IF NOT EXISTS `formations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `intitule` varchar(50) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `formations`
+-- Déchargement des données de la table `formations`
 --
 
 INSERT INTO `formations` (`id`, `intitule`, `created_at`, `updated_at`) VALUES
@@ -132,68 +142,61 @@ INSERT INTO `formations` (`id`, `intitule`, `created_at`, `updated_at`) VALUES
 -- Structure de la table `plannings`
 --
 
-CREATE TABLE `plannings` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `plannings`;
+CREATE TABLE IF NOT EXISTS `plannings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cours_id` int(11) NOT NULL,
   `date_debut` datetime DEFAULT NULL,
-  `date_fin` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `date_fin` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cours_id` (`cours_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `plannings`
+-- Déchargement des données de la table `plannings`
 --
 
 INSERT INTO `plannings` (`id`, `cours_id`, `date_debut`, `date_fin`) VALUES
-(1, 1, '2021-12-21 14:52:20', '2022-02-22 11:52:20'),
-(3, 2, '2022-02-22 08:56:04', '2022-04-22 12:56:04'),
-(5, 3, '2022-01-18 10:10:02', '2022-02-25 03:30:02'),
-(7, 4, '2022-03-15 06:30:13', '2022-05-15 07:33:13'),
-(9, 5, '2021-12-29 16:01:42', '2022-02-23 07:27:42'),
-(10, 5, '2022-01-05 07:33:42', '2022-02-09 07:28:42'),
-(25, 8, '2021-12-22 02:09:23', '2021-07-16 07:12:54'),
-(17, 6, '2022-02-23 10:33:44', '2022-03-12 08:30:44'),
-(24, 7, '2021-12-22 02:09:23', '2021-06-12 07:12:54'),
-(14, 5, '2022-03-15 09:37:42', '2022-03-24 09:31:42'),
-(18, 6, '2021-12-25 16:04:44', '2022-04-27 09:36:44'),
-(19, 6, '2022-01-26 05:33:44', '2022-02-28 07:34:44'),
-(20, 6, '2022-01-30 15:17:44', '2021-12-21 15:04:34'),
-(21, 6, '2022-02-23 10:33:44', '2022-03-12 08:30:44'),
-(23, 7, '2021-12-22 02:09:23', '2021-05-12 07:12:54'),
-(26, 8, '2021-12-22 02:09:23', '2021-06-22 07:12:54'),
-(27, 9, '2021-12-22 02:09:23', '2021-12-21 07:12:54'),
-(28, 9, '2021-12-22 02:09:23', '2021-10-01 07:12:54'),
-(29, 9, '2021-12-22 02:09:23', '2021-11-02 07:12:54'),
-(30, 10, '2021-12-22 02:09:23', '2021-12-25 07:12:54'),
-(31, 10, '2021-12-22 02:09:23', '2021-12-11 07:12:54'),
-(32, 11, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(33, 11, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(34, 1, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(35, 2, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(36, 12, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(37, 12, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(38, 13, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(39, 13, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(40, 13, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(41, 14, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(42, 14, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(43, 15, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(44, 15, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(45, 16, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(46, 17, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(47, 18, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(48, 19, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(49, 20, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(50, 20, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(51, 20, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(52, 18, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(53, 17, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(54, 16, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(55, 15, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(56, 13, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(57, 14, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(58, 12, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(59, 11, '2021-12-22 02:09:23', '2021-07-21 07:12:54'),
-(60, 10, '2021-12-22 02:09:23', '2021-07-21 07:12:54');
+(53, 7, '2022-01-03 00:00:00', '2022-01-03 10:00:00'),
+(54, 7, '2022-05-01 00:00:00', '2022-05-01 23:59:54'),
+(55, 8, '2021-11-15 00:00:00', '2021-11-15 23:59:54'),
+(56, 8, '2022-03-12 00:00:00', '2022-03-12 23:59:54'),
+(57, 9, '2022-02-20 00:00:00', '2022-02-20 23:59:54'),
+(58, 9, '2022-02-12 00:00:00', '2022-02-12 23:59:54'),
+(59, 9, '2022-03-08 00:00:00', '2022-03-08 23:59:54'),
+(60, 10, '2022-01-07 00:00:00', '2022-01-07 23:59:54'),
+(61, 10, '2022-01-03 00:00:00', '2022-01-03 23:59:54'),
+(62, 11, '2022-03-05 00:00:00', '2022-03-05 23:59:54'),
+(63, 11, '2022-04-13 00:00:00', '2022-04-13 23:59:54'),
+(64, 1, '2022-01-28 00:00:00', '2022-01-28 23:59:54'),
+(65, 2, '2022-01-29 00:00:00', '2022-01-29 23:59:54'),
+(66, 12, '2022-03-14 00:00:00', '2022-03-14 23:59:54'),
+(67, 12, '2021-11-22 00:00:00', '2021-11-22 23:59:54'),
+(68, 13, '2022-06-21 00:00:00', '2022-06-21 23:59:54'),
+(69, 13, '2022-02-16 00:00:00', '2022-02-16 23:59:54'),
+(70, 13, '2022-10-10 00:00:00', '2022-10-10 23:59:54'),
+(71, 14, '2022-06-22 00:00:00', '2022-06-22 23:59:54'),
+(72, 14, '2022-05-20 00:00:00', '2022-05-20 23:59:54'),
+(73, 15, '2022-01-02 00:00:00', '2022-01-02 23:59:54'),
+(74, 15, '2022-04-22 00:00:00', '2022-04-22 23:59:54'),
+(75, 16, '2022-05-11 00:00:00', '2022-05-11 23:59:54'),
+(76, 17, '2022-03-03 00:00:00', '2022-03-03 23:59:54'),
+(77, 18, '2022-02-22 00:00:00', '2022-02-22 23:59:54'),
+(78, 19, '2022-01-11 00:00:00', '2022-01-11 23:59:54'),
+(79, 20, '2022-09-11 00:00:00', '2022-09-11 23:59:54'),
+(80, 20, '2022-01-12 00:00:00', '2022-01-12 23:59:54'),
+(81, 20, '2022-02-20 00:00:00', '2022-02-20 23:59:54'),
+(82, 18, '2022-07-17 00:00:00', '2022-07-17 23:59:54'),
+(83, 17, '2022-05-14 00:00:00', '2022-05-14 23:59:54'),
+(84, 16, '2022-04-21 00:00:00', '2022-04-21 23:59:54'),
+(85, 15, '2022-01-01 00:00:00', '2022-01-01 23:59:54'),
+(86, 13, '2022-02-02 00:00:00', '2022-02-02 23:59:54'),
+(87, 14, '2022-09-09 00:00:00', '2022-09-09 23:59:54'),
+(88, 12, '2022-11-21 00:00:00', '2022-11-21 23:59:54'),
+(89, 11, '2022-08-10 00:00:00', '2022-08-10 23:59:54'),
+(90, 10, '2022-02-10 00:00:00', '2022-02-10 23:59:54'),
+(91, 1, '2022-01-10 00:00:00', '2022-01-10 23:59:54'),
+(92, 1, '2022-01-10 00:00:00', '2022-01-10 23:59:54');
 
 -- --------------------------------------------------------
 
@@ -201,18 +204,22 @@ INSERT INTO `plannings` (`id`, `cours_id`, `date_debut`, `date_fin`) VALUES
 -- Structure de la table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(40) DEFAULT NULL,
   `prenom` varchar(40) DEFAULT NULL,
   `login` varchar(30) NOT NULL,
   `mdp` varchar(60) NOT NULL,
   `formation_id` int(11) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `type` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login` (`login`),
+  KEY `formation_id` (`formation_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `users`
+-- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `nom`, `prenom`, `login`, `mdp`, `formation_id`, `type`) VALUES
@@ -238,71 +245,8 @@ INSERT INTO `users` (`id`, `nom`, `prenom`, `login`, `mdp`, `formation_id`, `typ
 (21, 'Vu', 'Sandra', 'user21', '$2y$10$8q0s.jTFrmZALfee4Em0IutFOO8B5iJyL0w06VT4F9FbbJAty5D72', NULL, NULL),
 (22, 'Vuong', 'PhuongLinh', 'user22', '$2y$10$JtQYZsbFZEREAgm.diRzueuobXhT5pLFwHUpU0zqnX.zesKJRHojy', NULL, NULL),
 (23, 'Robinson', 'Mialy', 'user23', '$2y$10$5IWwjDC2zCfyyIC7qN/so.A5fXlMRDFJWu9wk3Pz4KFTCkZrTQCi6', NULL, NULL);
+COMMIT;
 
---
--- Index pour les tables exportées
---
-
---
--- Index pour la table `cours`
---
-ALTER TABLE `cours`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `formation_id` (`formation_id`);
-
---
--- Index pour la table `cours_users`
---
-ALTER TABLE `cours_users`
-  ADD PRIMARY KEY (`cours_id`,`user_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Index pour la table `formations`
---
-ALTER TABLE `formations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `plannings`
---
-ALTER TABLE `plannings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cours_id` (`cours_id`);
-
---
--- Index pour la table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `login` (`login`),
-  ADD KEY `formation_id` (`formation_id`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `cours`
---
-ALTER TABLE `cours`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
---
--- AUTO_INCREMENT pour la table `formations`
---
-ALTER TABLE `formations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT pour la table `plannings`
---
-ALTER TABLE `plannings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
---
--- AUTO_INCREMENT pour la table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
